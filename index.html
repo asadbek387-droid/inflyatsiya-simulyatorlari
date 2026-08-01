@@ -169,8 +169,8 @@ const chart = new Chart(ctx, {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: { title: { display: true, text: 'Miqdor (dona)' }, min: 0, max: 3200 },
-      y: { title: { display: true, text: "Narx (so'm)" }, min: 0, max: 32000 }
+      x: { type: 'linear', title: { display: true, text: 'Miqdor (dona)' }, min: 0, max: 3200 },
+      y: { type: 'linear', title: { display: true, text: "Narx (so'm)" }, min: 0, max: 32000 }
     }
   }
 });
