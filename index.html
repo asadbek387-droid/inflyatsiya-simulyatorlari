@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="uz"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Talab va Taklif Simulyatori</title>
 <style>
   * { box-sizing: border-box; }
@@ -104,27 +104,27 @@
 
   <div class="slider-row">
     <label for="price">Narx</label>
-    <input type="range" min="2000" max="30000" step="500" value="15000" id="price">
-    <span class="price-out" id="price-out">15 000 so'm</span>
+    <input type="range" min="2000" max="30000" step="500" value="15000" id="price" />
+    <span class="price-out" id="price-out">15 000 so'm</span>
   </div>
 
   <div class="stats">
     <div class="stat-card">
       <p class="label">Talab miqdori</p>
-      <p class="value" id="qd-out">1 550</p>
+      <p class="value" id="qd-out">1 500</p>
     </div>
     <div class="stat-card">
       <p class="label">Taklif miqdori</p>
-      <p class="value" id="qs-out">1 500</p>
+      <p class="value" id="qs-out">1 400</p>
     </div>
     <div class="stat-card">
       <p class="label">Holat</p>
-      <p class="value" id="status-out">Muvozanat</p>
+      <p class="value" id="status-out">Yaqin</p>
     </div>
   </div>
 
   <div class="chart-wrap">
-    <canvas id="chart" style="display: block; box-sizing: border-box; height: 300px; width: 512px;" width="640" height="375"></canvas>
+    <canvas id="chart"></canvas>
   </div>
 
   <div class="legend">
@@ -136,8 +136,9 @@
   <footer>Talab va taklif qonunlarini vizual tushunish uchun oddiy simulyator</footer>
 </div>
 
-<script src="Talab%20va%20Taklif%20Simulyatori_files/chart.umd.min__DU5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
+window.addEventListener('load', function() {
 function qtyDemand(p) { return Math.max(0, Math.round(3000 - (p / 30000) * 2900)); }
 function qtySupply(p) { return Math.max(0, Math.round((p / 30000) * 3000)); }
 
@@ -203,8 +204,8 @@ function update() {
 
 priceSlider.addEventListener('input', update);
 update();
+});
 </script>
 
-
-
-</body></html>
+</body>
+</html>
