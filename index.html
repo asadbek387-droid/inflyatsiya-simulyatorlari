@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Talab va Taklif Simulyatori</title>
+<title>Iqtisod Simulyatorlari</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -11,150 +11,142 @@
     background: #f7f6f2;
     color: #1a1a18;
     margin: 0;
-    padding: 24px 16px;
+    padding: 20px 14px;
   }
   .container {
     max-width: 560px;
     margin: 0 auto;
     background: #ffffff;
     border-radius: 16px;
-    padding: 24px;
+    padding: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   }
-  h1 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 4px;
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; }
+  p.subtitle { font-size: 13px; color: #6b6a64; margin: 0 0 18px; }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 18px; }
+  .tab-btn {
+    flex: 1; padding: 9px; border-radius: 10px; border: 1px solid #e5e3da;
+    background: #f7f6f2; color: #1a1a18; font-size: 13px; cursor: pointer;
   }
-  p.subtitle {
-    font-size: 13px;
-    color: #6b6a64;
-    margin: 0 0 24px;
-  }
-  .slider-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  .slider-row label {
-    font-size: 14px;
-    color: #6b6a64;
-    min-width: 60px;
-  }
-  input[type=range] {
-    flex: 1;
-    accent-color: #2a78d6;
-  }
-  .price-out {
-    font-size: 14px;
-    font-weight: 600;
-    min-width: 100px;
-    text-align: right;
-  }
-  .stats {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .stat-card {
-    flex: 1;
-    background: #f7f6f2;
-    border-radius: 12px;
-    padding: 14px;
-  }
-  .stat-card p.label {
-    font-size: 12px;
-    color: #6b6a64;
-    margin: 0 0 4px;
-  }
-  .stat-card p.value {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-  }
-  .chart-wrap {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    margin-bottom: 16px;
-  }
-  .legend {
-    display: flex;
-    gap: 18px;
-    justify-content: center;
-    font-size: 12px;
-    color: #6b6a64;
-  }
-  .legend span { display: flex; align-items: center; gap: 5px; }
-  .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
-  footer {
-    text-align: center;
-    font-size: 11px;
-    color: #a3a29c;
-    margin-top: 20px;
-  }
+  .tab-btn.active { background: #2a78d6; color: #fff; border-color: #2a78d6; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .slider-row label { font-size: 13px; color: #6b6a64; min-width: 130px; }
+  input[type=range] { flex: 1; }
+  #sim-panel input[type=range] { accent-color: #2a78d6; }
+  #inf-panel input[type=range] { accent-color: #eb6834; }
+  .slider-out { font-size: 13px; font-weight: 600; min-width: 100px; text-align: right; }
+
+  .stats { display: flex; gap: 8px; margin-bottom: 16px; }
+  .stat-card { flex: 1; background: #f7f6f2; border-radius: 10px; padding: 10px; }
+  .stat-card p.label { font-size: 11px; color: #6b6a64; margin: 0 0 3px; }
+  .stat-card p.value { font-size: 17px; font-weight: 600; margin: 0; }
+  .stat-card.highlight p.value { color: #eb6834; }
+
+  .chart-wrap { position: relative; width: 100%; height: 270px; margin-bottom: 10px; }
+  .legend { display: flex; gap: 14px; justify-content: center; font-size: 11px; color: #6b6a64; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+  footer { text-align: center; font-size: 11px; color: #a3a29c; margin-top: 18px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Talab va Taklif Simulyatori</h1>
-  <p class="subtitle">Narxni o'zgartiring va bozor muvozanatini kuzating</p>
+  <h1>Iqtisod Simulyatorlari</h1>
+  <p class="subtitle">Talab-Taklif &middot; Inflyatsiya</p>
 
-  <div class="slider-row">
-    <label for="price">Narx</label>
-    <input type="range" min="2000" max="30000" step="500" value="15000" id="price" />
-    <span class="price-out" id="price-out">15 000 so'm</span>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="sim">Talab-Taklif</button>
+    <button class="tab-btn" data-tab="inf">Inflyatsiya</button>
   </div>
 
-  <div class="stats">
-    <div class="stat-card">
-      <p class="label">Talab miqdori</p>
-      <p class="value" id="qd-out">1 500</p>
+  <!-- SUPPLY-DEMAND PANEL -->
+  <div class="panel active" id="sim-panel">
+    <div class="slider-row">
+      <label for="price">Narx</label>
+      <input type="range" min="2000" max="30000" step="500" value="15000" id="price" />
+      <span class="slider-out" id="price-out">15 000 so'm</span>
     </div>
-    <div class="stat-card">
-      <p class="label">Taklif miqdori</p>
-      <p class="value" id="qs-out">1 400</p>
+    <div class="stats">
+      <div class="stat-card"><p class="label">Talab</p><p class="value" id="qd-out">1 500</p></div>
+      <div class="stat-card"><p class="label">Taklif</p><p class="value" id="qs-out">1 400</p></div>
+      <div class="stat-card"><p class="label">Holat</p><p class="value" id="status-out">Yaqin</p></div>
     </div>
-    <div class="stat-card">
-      <p class="label">Holat</p>
-      <p class="value" id="status-out">Yaqin</p>
+    <div class="chart-wrap"><canvas id="sim-chart"></canvas></div>
+    <div class="legend">
+      <span><span class="dot" style="background:#2a78d6;"></span>Talab</span>
+      <span><span class="dot" style="background:#1baf7a;"></span>Taklif</span>
+      <span><span class="dot" style="background:#eb6834;"></span>Muvozanat</span>
     </div>
   </div>
 
-  <div class="chart-wrap">
-    <canvas id="chart"></canvas>
+  <!-- INFLATION PANEL -->
+  <div class="panel" id="inf-panel">
+    <div class="slider-row">
+      <label for="amount">Boshlang'ich summa</label>
+      <input type="range" min="1000000" max="50000000" step="1000000" value="10000000" id="amount" />
+      <span class="slider-out" id="amount-out">10 000 000 so'm</span>
+    </div>
+    <div class="slider-row">
+      <label for="rate">Yillik inflyatsiya</label>
+      <input type="range" min="1" max="30" step="1" value="10" id="rate" />
+      <span class="slider-out" id="rate-out">10%</span>
+    </div>
+    <div class="slider-row">
+      <label for="years">Necha yil</label>
+      <input type="range" min="1" max="20" step="1" value="10" id="years" />
+      <span class="slider-out" id="years-out">10 yil</span>
+    </div>
+    <div class="stats">
+      <div class="stat-card"><p class="label">Nominal summa</p><p class="value" id="nominal-out">10 000 000 so'm</p></div>
+      <div class="stat-card highlight"><p class="label">Real qiymati</p><p class="value" id="real-out">3 855 433 so'm</p></div>
+    </div>
+    <div class="chart-wrap"><canvas id="inf-chart"></canvas></div>
+    <div class="legend">
+      <span><span class="dot" style="background:#898781;"></span>Nominal summa</span>
+      <span><span class="dot" style="background:#eb6834;"></span>Real qiymat</span>
+    </div>
   </div>
 
-  <div class="legend">
-    <span><span class="dot" style="background:#2a78d6;"></span>Talab</span>
-    <span><span class="dot" style="background:#1baf7a;"></span>Taklif</span>
-    <span><span class="dot" style="background:#eb6834;"></span>Muvozanat</span>
-  </div>
-
-  <footer>Talab va taklif qonunlarini vizual tushunish uchun oddiy simulyator</footer>
+  <footer>Iqtisodiy tushunchalarni vizual o'rganish uchun oddiy dasturlar</footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-window.addEventListener('load', function() {
+/* ---------- TABS ---------- */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab + '-panel').classList.add('active');
+  });
+});
+
+function fmt(n) { return Math.round(n).toLocaleString('fr-FR').replace(/,/g, ' '); }
+
+/* ---------- SUPPLY-DEMAND ---------- */
 function qtyDemand(p) { return Math.max(0, Math.round(3000 - (p / 30000) * 2900)); }
 function qtySupply(p) { return Math.max(0, Math.round((p / 30000) * 3000)); }
 
-const priceRange = [];
-for (let p = 0; p <= 30000; p += 1000) priceRange.push(p);
-const demandCurve = priceRange.map(p => ({ x: qtyDemand(p), y: p }));
-const supplyCurve = priceRange.map(p => ({ x: qtySupply(p), y: p }));
+const priceRangeArr = [];
+for (let p = 0; p <= 30000; p += 1000) priceRangeArr.push(p);
+const demandCurve = priceRangeArr.map(p => ({ x: qtyDemand(p), y: p }));
+const supplyCurve = priceRangeArr.map(p => ({ x: qtySupply(p), y: p }));
 
 let eqPrice = 0, eqQty = 0, minDiff = Infinity;
-priceRange.forEach(p => {
+priceRangeArr.forEach(p => {
   const diff = Math.abs(qtyDemand(p) - qtySupply(p));
   if (diff < minDiff) { minDiff = diff; eqPrice = p; eqQty = Math.round((qtyDemand(p) + qtySupply(p)) / 2); }
 });
 
-const ctx = document.getElementById('chart');
-const chart = new Chart(ctx, {
+const simChart = new Chart(document.getElementById('sim-chart'), {
   type: 'line',
   data: {
     datasets: [
@@ -165,12 +157,11 @@ const chart = new Chart(ctx, {
     ]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
       x: { type: 'linear', title: { display: true, text: 'Miqdor (dona)' }, min: 0, max: 3200 },
-      y: { type: 'linear', title: { display: true, text: "Narx (so'm)" }, min: 0, max: 32000 }
+      y: { title: { display: true, text: "Narx (so'm)" }, min: 0, max: 32000 }
     }
   }
 });
@@ -181,30 +172,83 @@ const qdOut = document.getElementById('qd-out');
 const qsOut = document.getElementById('qs-out');
 const statusOut = document.getElementById('status-out');
 
-function fmt(n) { return Math.round(n).toLocaleString('fr-FR').replace(/,/g, ' '); }
-
-function update() {
+function updateSim() {
   const price = Number(priceSlider.value);
   const qd = qtyDemand(price);
   const qs = qtySupply(price);
-
   priceOut.textContent = fmt(price) + " so'm";
   qdOut.textContent = fmt(qd);
   qsOut.textContent = fmt(qs);
-
   let status;
   if (Math.abs(price - eqPrice) < 800) status = 'Muvozanat';
   else if (qd > qs) status = 'Tanqislik';
   else status = "Ortiqcha";
   statusOut.textContent = status;
-
-  chart.data.datasets[3].data = [{ x: qd, y: price }];
-  chart.update('none');
+  simChart.data.datasets[3].data = [{ x: qd, y: price }];
+  simChart.update('none');
 }
+priceSlider.addEventListener('input', updateSim);
+updateSim();
 
-priceSlider.addEventListener('input', update);
-update();
+/* ---------- INFLATION ---------- */
+const amountSlider = document.getElementById('amount');
+const rateSlider = document.getElementById('rate');
+const yearsSlider = document.getElementById('years');
+const amountOut = document.getElementById('amount-out');
+const rateOut = document.getElementById('rate-out');
+const yearsOut = document.getElementById('years-out');
+const nominalOut = document.getElementById('nominal-out');
+const realOut = document.getElementById('real-out');
+
+const infChart = new Chart(document.getElementById('inf-chart'), {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      { label: 'Nominal summa', data: [], borderColor: '#898781', backgroundColor: 'transparent', borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0 },
+      { label: 'Real qiymat', data: [], borderColor: '#eb6834', backgroundColor: 'rgba(235,104,52,0.08)', borderWidth: 2, fill: true, pointRadius: 0, tension: 0.2 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { title: { display: true, text: 'Yil' } },
+      y: { title: { display: true, text: "Summa (so'm)" }, ticks: { callback: v => fmt(v) } }
+    }
+  }
 });
+
+function updateInf() {
+  const amount = Number(amountSlider.value);
+  const rate = Number(rateSlider.value) / 100;
+  const years = Number(yearsSlider.value);
+
+  amountOut.textContent = fmt(amount) + " so'm";
+  rateOut.textContent = rateSlider.value + '%';
+  yearsOut.textContent = years + ' yil';
+
+  const labels = [];
+  const nominalData = [];
+  const realData = [];
+  for (let y = 0; y <= years; y++) {
+    labels.push('Yil ' + y);
+    nominalData.push(amount);
+    realData.push(amount / Math.pow(1 + rate, y));
+  }
+
+  infChart.data.labels = labels;
+  infChart.data.datasets[0].data = nominalData;
+  infChart.data.datasets[1].data = realData;
+  infChart.update('none');
+
+  nominalOut.textContent = fmt(amount) + " so'm";
+  realOut.textContent = fmt(realData[realData.length - 1]) + " so'm";
+}
+amountSlider.addEventListener('input', updateInf);
+rateSlider.addEventListener('input', updateInf);
+yearsSlider.addEventListener('input', updateInf);
+updateInf();
 </script>
 
 </body>
