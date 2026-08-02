@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Iqtisod simulyatorlari",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "simulyatorlar",
+  "start_url": "https://asadbek387-droid.github.io/inflyatsiya-simulyatorlari/",
+  "theme_color": "#ffffff",
+  "description": "Talab-taklif va inflyatsiya simulyatorlari"
+}
